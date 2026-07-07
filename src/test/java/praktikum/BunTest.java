@@ -17,10 +17,16 @@ public class BunTest {
 
 
     @Test
-    public void getNameAndPriceBunConstructor() {
+    public void getNameBunConstructor() {
         bun = new Bun("Булка1", 11.f);
 
         assertEquals("Булка1", bun.getName());
+    }
+
+    @Test
+    public void getPriceBunConstructor() {
+        bun = new Bun("Булка1", 11.f);
+
         assertEquals(11.f, bun.getPrice(), 0.001f);
     }
 }

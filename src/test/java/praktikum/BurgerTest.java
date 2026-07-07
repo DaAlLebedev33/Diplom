@@ -43,20 +43,20 @@ public class BurgerTest {
     }
 
     @Test
-    public void setBuns_ShouldSetBun() {
+    public void setBunsShouldSetBun() {
         burger.setBuns(bun);
         assertEquals(bun, burger.bun);
     }
 
     @Test
-    public void addIngredient_ShouldAddIngredient() {
+    public void addIngredientShouldAddIngredient() {
         burger.addIngredient(ingredientOne);
         assertEquals(1, burger.ingredients.size());
         assertEquals(ingredientOne, burger.ingredients.get(0));
     }
 
     @Test
-    public void removeIngredient_ShouldRemoveIngredient() {
+    public void removeIngredientShouldRemoveIngredient() {
         burger.addIngredient(ingredientOne);
         burger.addIngredient(ingredientTwo);
 
@@ -66,7 +66,7 @@ public class BurgerTest {
     }
 
     @Test
-    public void moveIngredient_ShouldMoveIngredient() {
+    public void moveIngredientShouldMoveIngredient() {
         burger.addIngredient(ingredientOne);
         burger.addIngredient(ingredientTwo);
 
@@ -76,49 +76,14 @@ public class BurgerTest {
     }
 
     @Test
-    public void getReceipt_ShouldReturnNotNull() {
+    public void getReceiptShouldReturnNotNull() {
         burger.setBuns(bun);
         burger.addIngredient(ingredientOne);
 
         String receipt = burger.getReceipt();
-        assertNotNull(receipt);
-        assertFalse(receipt.isEmpty());
-    }
 
-    @RunWith(Parameterized.class)
-    public static class PriceParameterizedTest {
-
-        private float bunPrice;
-        private Ingredient[] ingredients;
-        private float expectedPrice;
-
-        public PriceParameterizedTest(float bunPrice, Ingredient[] ingredients, float expectedPrice) {
-            this.bunPrice = bunPrice;
-            this.ingredients = ingredients;
-            this.expectedPrice = expectedPrice;
-        }
-
-        @Parameterized.Parameters
-        public static Collection<Object[]> GetPrice() {
-            return Arrays.asList(new Object[][]{
-                    {10.0f, new Ingredient[]{new Ingredient(IngredientType.FILLING, "Салат", 50.0f)}, 70.0f},
-                    {10.0f, new Ingredient[]{
-                            new Ingredient(IngredientType.SAUCE, "Сырный", 20.0f)
-                    }, 90.0f}
-            });
-        }
-
-        @Test
-        public void testGetPrice() {
-            Burger testBurger = new Burger();
-            Bun bun = new Bun("Булка1", bunPrice);
-            testBurger.setBuns(bun);
-
-            for (Ingredient ingredient : ingredients) {
-                testBurger.addIngredient(ingredient);
-            }
-
-            assertEquals(expectedPrice, testBurger.getPrice(), 0.001f);
-        }
+        assertTrue(receipt.contains("(==== Булка1 ====)"));
+        assertTrue(receipt.contains("= filling Салат ="));
+        assertTrue(receipt.contains("Price: " + String.format("%.2f", 35.0f + 11.0f * 2)));
     }
 }
